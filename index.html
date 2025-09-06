@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bitzcrew — Game Design · Web · Hosting · Content</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .hero-grid-background {
+            background-image: linear-gradient(rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.95)), url('data:image/svg+xml;utf8,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(224,224,224,0.4)" stroke-width="0.5"/></pattern></defs><rect width="100%" height="100%" fill="url(%23grid)"/></svg>');
+            background-size: auto, 100px 100px;
+        }
+
+        /* small animated pulse for game icon */
+        @keyframes pulseScale {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            50% {
+                transform: scale(1.06);
+                opacity: 0.9;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .icon-pulse {
+            animation: pulseScale 3s ease-in-out infinite;
+        }
+
+        .stat-gradient-1 {
+            background: linear-gradient(135deg, #a78bfa, #c084fc);
+        }
+
+        .stat-gradient-2 {
+            background: linear-gradient(135deg, #fbcfe8, #f472b6);
+        }
+
+        .stat-gradient-3 {
+            background: linear-gradient(135deg, #a7f3d0, #6ee7b7);
+        }
+
+        @keyframes gradient-animation {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .animated-gradient-bg {
+            background: linear-gradient(-45deg, #000000, #11001c, #000000, #1c0014);
+            background-size: 400% 400%;
+            animation: gradient-animation 15s ease infinite;
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { 'poppins': ['Poppins', 'sans-serif'] },
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="font-poppins bg-white text-[#222222] leading-relaxed">
+
+    <header class="bg-white py-4 sticky top-0 z-50 shadow-sm">
+        <nav class="max-w-6xl mx-auto px-8 flex justify-between items-center">
+            <a href="#" class="flex items-center text-2xl font-bold">
+                <img src="bitzcrew.png" alt="Bitzcrew Logo" class="h-8 mr-2.5">
+                <span>Bitzcrew</span>
+            </a>
+
+            <ul class="hidden md:flex gap-8">
+                <li><a href="#about"
+                        class="font-medium text-[#666] transition-colors duration-300 hover:text-[#222222]">About</a>
+                </li>
+                <li><a href="#services"
+                        class="font-medium text-[#666] transition-colors duration-300 hover:text-[#222222]">Services</a>
+                </li>
+                <li><a href="#casestudies"
+                        class="font-medium text-[#666] transition-colors duration-300 hover:text-[#222222]">Case
+                        Studies</a>
+                </li>
+            </ul>
+
+            <a href="#contact"
+                class="hidden md:inline-block py-2.5 px-6 rounded-full font-medium transition-transform duration-300 ease-in-out cursor-pointer bg-black text-white hover:bg-gray-800 hover:-translate-y-0.5 hover:shadow-md">
+                Start a Project
+            </a>
+
+            <div class="md:hidden">
+                <button id="menu-toggle" class="text-gray-800 hover:text-black">
+                    <svg class="w-7 h-7" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        viewBox="0 0 24 24" stroke="currentColor">
+                        <path d="M4 6h16M4 12h16m-7 6h7"></path>
+                    </svg>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <div id="mobile-menu-container" class="fixed inset-0 z-50 hidden">
+        <div id="menu-backdrop" class="fixed inset-0 bg-black bg-opacity-50"></div>
+
+        <div id="mobile-menu-panel"
+            class="fixed top-0 right-0 h-full w-full max-w-sm bg-white shadow-xl transition-transform duration-300 ease-in-out translate-x-full">
+            <div class="flex justify-between items-center p-6 border-b border-gray-200">
+                <a href="#" class="flex items-center text-xl font-bold">
+                    <img src="bitzcrew.png" alt="Bitzcrew Logo" class="h-7 mr-2">
+                    <span>Bitzcrew</span>
+                </a>
+                <button id="menu-close" class="text-gray-500 hover:text-black">
+                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                        </path>
+                    </svg>
+                </button>
+            </div>
+            <ul class="flex flex-col p-6 space-y-4 text-lg">
+                <li><a href="#about"
+                        class="mobile-link block py-2 text-gray-700 hover:text-violet-600 font-medium">About</a></li>
+                <li><a href="#services"
+                        class="mobile-link block py-2 text-gray-700 hover:text-violet-600 font-medium">Services</a></li>
+                <li><a href="#casestudies"
+                        class="mobile-link block py-2 text-gray-700 hover:text-violet-600 font-medium">Case Studies</a>
+                </li>
+            </ul>
+            <div class="p-6 absolute bottom-0 w-full">
+                <a href="#contact"
+                    class="mobile-link block w-full text-center py-3 px-8 rounded-full bg-black text-white font-medium">Start
+                    a Project</a>
+            </div>
+        </div>
+    </div>
+
+    <main>
+        <!-- Hero  -->
+        <section class="hero text-center py-20 lg:py-32 hero-grid-background">
+            <div class="max-w-3xl mx-auto px-8">
+
+                <h1 class="text-4xl md:text-5xl lg:text-[3.5rem] leading-tight font-semibold mb-6">
+                    Smart digital solutions for your business growth.
+                </h1>
+
+                <p class="text-lg md:text-xl max-w-xl mx-auto mb-8 text-gray-500">
+                    Embark on the journey to build your MVP with leading UI design.
+                </p>
+
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16 lg:mb-24">
+                    <a href="#contact"
+                        class="w-full sm:w-auto inline-block py-3 px-7 rounded-full font-medium transition-transform duration-300 ease-in-out cursor-pointer bg-black text-white border border-black hover:bg-gray-800 hover:-translate-y-1 hover:shadow-lg">
+                        BOOK A CALL
+                    </a>
+                    <a href="#casestudies"
+                        class="w-full sm:w-auto inline-block py-3 px-7 rounded-full font-medium transition-transform duration-300 ease-in-out cursor-pointer bg-white text-black border border-gray-300 hover:bg-gray-50 hover:-translate-y-1">
+                        OUR CASE STUDY
+                    </a>
+                </div>
+            </div>
+            <div class="max-w-6xl mx-auto px-8">
+                <h3 class="text-sm font-medium text-gray-500 uppercase tracking-wider text-center mb-8">
+                    Technologies We Master
+                </h3>
+                <div class="flex flex-wrap justify-center items-center gap-x-10 md:gap-x-12 gap-y-8 opacity-70">
+                    <img src="https://pixijs.com/logo.svg" alt="PixiJS" class="h-8" title="PixiJS">
+
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg" alt="Python"
+                        class="h-8" title="Python">
+
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/d/d9/Node.js_logo.svg" alt="Node.js"
+                        class="h-7" title="Node.js">
+
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg"
+                        alt="Amazon Web Services" class="h-10" title="Amazon Web Services">
+
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg" alt="React.js"
+                        class="h-8" title="React.js">
+
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/c/c4/Unity_2021.svg" alt="Unity Engine"
+                        class="h-8" title="Unity Engine">
+
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/3/33/Figma-logo.svg" alt="Figma"
+                        class="h-8" title="Figma">
+                </div>
+            </div>
+
+
+        </section>
+
+        <!-- About  -->
+        <section id="about" class="py-16 md:py-24">
+            <div class="max-w-6xl mx-auto px-8">
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16 md:mb-20 text-white">
+                    <div class="p-8 rounded-3xl stat-gradient-1 text-center">
+                        <h3 class="text-4xl sm:text-5xl font-bold mb-2">99%</h3>
+                        <p class="text-lg">Pixel Perfect Design</p>
+                    </div>
+                    <div class="p-8 rounded-3xl stat-gradient-2 text-center">
+                        <h3 class="text-4xl sm:text-5xl font-bold mb-2">2025+</h3>
+                        <p class="text-lg">Future-Proof Code</p>
+                    </div>
+                    <div class="p-8 rounded-3xl stat-gradient-3 text-center">
+                        <h3 class="text-4xl sm:text-5xl font-bold mb-2">100%</h3>
+                        <p class="text-lg">Commitment to Quality</p>
+                    </div>
+                </div>
+
+                <div id="services" class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center mb-16 md:mb-24">
+                    <div>
+                        <h2 class="text-3xl md:text-[2.5rem] leading-tight font-semibold mb-8">Full-Service Digital
+                            Solutions
+                        </h2>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <div
+                                class="bg-gray-50 p-6 rounded-2xl border border-gray-100 transition-all hover:shadow-lg hover:border-transparent">
+                                <div
+                                    class="flex items-center justify-center h-12 w-12 rounded-full bg-violet-100 text-violet-600 mb-4 icon-pulse">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+                                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                </div>
+                                <h3 class="text-lg font-semibold mb-1">Game Development</h3>
+                                <p class="text-sm text-gray-500">From concept to launch, we build immersive games on
+                                    Unity and
+                                    Unreal.</p>
+                            </div>
+                            <div
+                                class="bg-gray-50 p-6 rounded-2xl border border-gray-100 transition-all hover:shadow-lg hover:border-transparent">
+                                <div
+                                    class="flex items-center justify-center h-12 w-12 rounded-full bg-pink-100 text-pink-600 mb-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+                                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                                    </svg>
+                                </div>
+                                <h3 class="text-lg font-semibold mb-1">Web Solutions</h3>
+                                <p class="text-sm text-gray-500">Fast, responsive websites and powerful web
+                                    applications.</p>
+                            </div>
+                            <div
+                                class="bg-gray-50 p-6 rounded-2xl border border-gray-100 transition-all hover:shadow-lg hover:border-transparent">
+                                <div
+                                    class="flex items-center justify-center h-12 w-12 rounded-full bg-sky-100 text-sky-600 mb-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+                                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01" />
+                                    </svg>
+                                </div>
+                                <h3 class="text-lg font-semibold mb-1">Hosting Solutions</h3>
+                                <p class="text-sm text-gray-500">Reliable, scalable, and secure cloud hosting for your
+                                    projects.
+                                </p>
+                            </div>
+                            <!-- <div
+                                class="bg-gray-50 p-6 rounded-2xl border border-gray-100 transition-all hover:shadow-lg hover:border-transparent">
+                                <div
+                                    class="flex items-center justify-center h-12 w-12 rounded-full bg-amber-100 text-amber-600 mb-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+                                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                                    </svg>
+                                </div>
+                                <h3 class="text-lg font-semibold mb-1">Social & Content</h3>
+                                <p class="text-sm text-gray-500">Engaging social media strategies and content that
+                                    builds your
+                                    brand.</p>
+                            </div> -->
+                        </div>
+                    </div>
+                    <div class="relative flex justify-center items-center mt-12 lg:mt-0">
+                        <img src="digital-product-mockup.png" alt="Digital Product Mockup"
+                            class="max-w-full rounded-3xl shadow-2xl">
+                    </div>
+                </div>
+
+                <!-- <div id="casestudies" class="mb-16 md:mb-24">
+                    <h2 class="text-3xl md:text-[2.5rem] leading-tight font-semibold mb-12 text-center">What We Can
+                        Build For
+                        You</h2>
+                    <div class="relative w-full aspect-video rounded-3xl overflow-hidden mb-12 laptop-mockup-shadow">
+                        <img src="laptop-video-mockup.png" alt="Laptop Mockup" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 flex justify-center items-center bg-black/20">
+                            <button class="bg-white/30 backdrop-blur-sm p-4 rounded-full text-white play-button-pulse">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12" viewBox="0 0 20 20"
+                                    fill="currentColor">
+                                    <path fill-rule="evenodd"
+                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <h3 class="text-lg md:text-xl text-center max-w-3xl mx-auto font-medium text-gray-700 mb-8">
+                        Showcasing our
+                        capabilities through conceptual designs and technical demos that inspire.</h3>
+                    <div class="flex justify-center flex-wrap gap-4 mb-12">
+                        <button class="px-6 py-2 rounded-full bg-black text-white text-sm font-medium">ALL</button>
+                        <button
+                            class="px-6 py-2 rounded-full bg-gray-100 text-gray-700 text-sm font-medium hover:bg-gray-200">GAMING</button>
+                        <button
+                            class="px-6 py-2 rounded-full bg-gray-100 text-gray-700 text-sm font-medium hover:bg-gray-200">WEB
+                            APP</button>
+                        <button
+                            class="px-6 py-2 rounded-full bg-gray-100 text-gray-700 text-sm font-medium hover:bg-gray-200">E-COMMERCE</button>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <a href="#"
+                            class="group block bg-white p-6 rounded-2xl border border-gray-100 transition-all duration-300 hover:shadow-xl hover:-translate-y-2">
+                            <img src="dashboard-ai.png" alt="Concept art for Project Cybershift"
+                                class="w-full h-auto rounded-lg mb-4">
+                            <h4 class="font-semibold text-lg mb-2 text-gray-800">Project Cybershift</h4>
+                            <p class="text-sm text-gray-500 mb-4">A fast-paced, top-down roguelike shooter concept set
+                                in a
+                                dystopian future, focusing on procedural level generation in Unity.</p>
+                            <span class="font-medium text-sm text-violet-600 flex items-center gap-2">See the Concept
+                                Art<svg xmlns="http://www.w3.org/2000/svg"
+                                    class="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"
+                                    fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                </svg></span>
+                        </a>
+                        <a href="#"
+                            class="group block bg-white p-6 rounded-2xl border border-gray-100 transition-all duration-300 hover:shadow-xl hover:-translate-y-2">
+                            <img src="dashboard-task-app.png" alt="Dashboard UI for SyncUp Analytics"
+                                class="w-full h-auto rounded-lg mb-4">
+                            <h4 class="font-semibold text-lg mb-2 text-gray-800">SyncUp Analytics</h4>
+                            <p class="text-sm text-gray-500 mb-4">A modern analytics dashboard UI for small businesses.
+                                Designed
+                                in Figma with a focus on data clarity and a seamless user experience.</p>
+                            <span class="font-medium text-sm text-violet-600 flex items-center gap-2">Explore the
+                                UI/UX<svg xmlns="http://www.w3.org/2000/svg"
+                                    class="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"
+                                    fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                </svg></span>
+                        </a>
+                        <a href="#"
+                            class="group block bg-white p-6 rounded-2xl border border-gray-100 transition-all duration-300 hover:shadow-xl hover:-translate-y-2">
+                            <img src="dashboard-website.png" alt="Website mockup for Artisan Threads Co."
+                                class="w-full h-auto rounded-lg mb-4">
+                            <h4 class="font-semibold text-lg mb-2 text-gray-800">Artisan Threads Co.</h4>
+                            <p class="text-sm text-gray-500 mb-4">A stylish and minimalist e-commerce experience concept
+                                for a
+                                luxury fashion brand, built with a mobile-first approach.</p>
+                            <span class="font-medium text-sm text-violet-600 flex items-center gap-2">View the
+                                Design<svg xmlns="http://www.w3.org/2000/svg"
+                                    class="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"
+                                    fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                </svg></span>
+                        </a>
+                    </div>
+                </div> -->
+            </div>
+        </section>
+
+        <!-- Process  -->
+        <section id="process" class="py-16 md:py-24 bg-white">
+            <div class="max-w-6xl mx-auto px-8 grid md:grid-cols-2 gap-12 lg:gap-16 items-center">
+
+                <div class="process-text">
+                    <h2 class="text-3xl md:text-[2.5rem] leading-tight font-semibold mb-10 md:mb-12">From Idea to
+                        Launch: Our
+                        Process</h2>
+
+                    <div class="relative pl-12 pb-12 border-l-2 border-gray-200">
+                        <div
+                            class="absolute -left-5 top-0 flex items-center justify-center w-10 h-10 rounded-full bg-violet-600 text-white font-bold">
+                            01</div>
+                        <h4 class="text-[1.25rem] leading-tight font-semibold mb-2">Discovery & Strategy</h4>
+                        <p class="text-[#666]">We start by diving deep into your vision, goals, and target audience to
+                            build a
+                            comprehensive project roadmap and strategy for success.</p>
+                    </div>
+
+                    <div class="relative pl-12 pb-12 border-l-2 border-gray-200">
+                        <div
+                            class="absolute -left-5 top-0 flex items-center justify-center w-10 h-10 rounded-full bg-violet-600 text-white font-bold">
+                            02</div>
+                        <h4 class="text-[1.25rem] leading-tight font-semibold mb-2">Design & Prototyping</h4>
+                        <p class="text-[#666]">Our team creates wireframes and high-fidelity mockups. We focus on
+                            intuitive
+                            UI/UX to craft an engaging and user-friendly experience.</p>
+                    </div>
+
+                    <div class="relative pl-12 pb-12 border-l-2 border-gray-200">
+                        <div
+                            class="absolute -left-5 top-0 flex items-center justify-center w-10 h-10 rounded-full bg-violet-600 text-white font-bold">
+                            03</div>
+                        <h4 class="text-[1.25rem] leading-tight font-semibold mb-2">Development & Iteration</h4>
+                        <p class="text-[#666]">With an approved design, our developers get to work, building your
+                            project with
+                            clean, efficient code and providing regular updates for your feedback.</p>
+                    </div>
+
+                    <div class="relative pl-12">
+                        <div
+                            class="absolute -left-5 top-0 flex items-center justify-center w-10 h-10 rounded-full bg-violet-600 text-white font-bold">
+                            04</div>
+                        <h4 class="text-[1.25rem] leading-tight font-semibold mb-2">Launch & Support</h4>
+                        <p class="text-[#666]">We handle the deployment process to get your project live. We also offer
+                            ongoing
+                            support and maintenance plans to ensure long-term success.</p>
+                    </div>
+
+                    <div class="mt-12">
+                        <a href="#contact"
+                            class="inline-block py-3 px-7 rounded-full font-medium transition-transform duration-300 ease-in-out cursor-pointer bg-black text-white border border-black hover:bg-gray-800 hover:-translate-y-1 hover:shadow-lg">Start
+                            Your Project</a>
+                    </div>
+                </div>
+
+                <div class="process-image hidden md:block relative">
+                    <img src="scooter-app-mockup.png" alt="Process Mockup of a mobile application design"
+                        class="mx-auto">
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Contact  -->
+        <section id="contact" class="py-20 md:py-32 text-center text-white animated-gradient-bg">
+            <div class="max-w-3xl mx-auto px-8">
+
+                <h2 class="text-4xl md:text-[3.5rem] leading-tight font-semibold mb-6">Let's Build Something Remarkable
+                </h2>
+
+                <p class="text-lg md:text-xl max-w-2xl mx-auto mb-10 text-gray-300">
+                    Ready to bring your game concept to life or launch a web platform that stands out? Let's talk about
+                    your
+                    project.
+                </p>
+
+                <a href="#"
+                    class="inline-block py-3 px-7 rounded-full font-medium transition-transform duration-300 ease-in-out cursor-pointer bg-white text-black hover:-translate-y-1 hover:shadow-lg">
+                    Book a Free Consultation
+                </a>
+                <p class="mt-8 text-gray-400">
+                    Have a quick question? Email us at
+                    <a href="mailto:contact@bitzcrew.com"
+                        class="font-medium text-white underline hover:text-gray-200">contact@bitzcrew.com</a>
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-white pt-16 pb-8 text-sm text-[#666]">
+        <div class="max-w-6xl mx-auto px-8">
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-12 mb-12">
+
+                <div class="lg:col-span-1 text-center lg:text-left">
+                    <a href="#" class="inline-flex items-center text-2xl font-bold text-gray-900 mb-4">
+                        <img src="bitzcrew.png" alt="Bitzcrew Logo" class="h-8 mr-2.5">
+                        <span>Bitzcrew</span>
+                    </a>
+                    <p class="mb-6 max-w-xs mx-auto lg:mx-0">Creative vision, technical excellence. Your partner in
+                        digital
+                        innovation.</p>
+                    <div class="flex gap-4 justify-center lg:justify-start">
+                        <a href="#" class="transition-colors hover:text-black" title="Twitter/X"><svg class="w-6 h-6"
+                                fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                            </svg></a>
+                        <a href="#" class="transition-colors hover:text-black" title="LinkedIn"><svg class="w-6 h-6"
+                                fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+                            </svg></a>
+                        <a href="#" class="transition-colors hover:text-black" title="GitHub"><svg class="w-6 h-6"
+                                fill="currentColor" viewBox="0 0 24 24">
+                                <path fill-rule="evenodd"
+                                    d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.168 6.839 9.49.5.092.682-.217.682-.482 0-.237-.009-.868-.014-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.031-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.203 2.398.1 2.651.64.7 1.03 1.595 1.03 2.688 0 3.848-2.338 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.001 10.001 0 0022 12c0-5.523-4.477-10-10-10z"
+                                    clip-rule="evenodd" />
+                            </svg></a>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-2 grid grid-cols-2 md:grid-cols-3 gap-8 text-center md:text-left">
+                    <div>
+                        <h4 class="mb-4 font-semibold text-gray-900">Company</h4>
+                        <ul class="space-y-2">
+                            <li><a href="#about" class="transition-colors hover:text-gray-900">About Us</a></li>
+                            <li><a href="#services" class="transition-colors hover:text-gray-900">Services</a></li>
+                            <li><a href="#casestudies" class="transition-colors hover:text-gray-900">Case Studies</a>
+                            </li>
+                            <li><a href="#blog" class="transition-colors hover:text-gray-900">Blog</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="mb-4 font-semibold text-gray-900">Services</h4>
+                        <ul class="space-y-2">
+                            <li><a href="#services" class="transition-colors hover:text-gray-900">Game Development</a>
+                            </li>
+                            <li><a href="#services" class="transition-colors hover:text-gray-900">Web Solutions</a></li>
+                            <li><a href="#services" class="transition-colors hover:text-gray-900">Hosting Solutions</a>
+                            </li>
+                            <li><a href="#services" class="transition-colors hover:text-gray-900">Social & Content</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="mb-4 font-semibold text-gray-900">Connect</h4>
+                        <ul class="space-y-2">
+                            <li><a href="#contact" class="transition-colors hover:text-gray-900">Contact Us</a></li>
+                            <li><a href="#" class="transition-colors hover:text-gray-900">Careers</a></li>
+                            <li><a href="#" class="transition-colors hover:text-gray-900">LinkedIn</a></li>
+                            <li><a href="#" class="transition-colors hover:text-gray-900">GitHub</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="border-t border-gray-200 pt-8 flex flex-col sm:flex-row justify-between items-center">
+                <p>&copy; 2025 Bitzcrew. All Rights Reserved.</p>
+                <div class="flex gap-4 mt-4 sm:mt-0">
+                    <a href="#" class="transition-colors hover:text-gray-900">Privacy Policy</a>
+                    <a href="#" class="transition-colors hover:text-gray-900">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const menuToggle = document.getElementById('menu-toggle');
+        const menuClose = document.getElementById('menu-close');
+        const menuContainer = document.getElementById('mobile-menu-container');
+        const menuPanel = document.getElementById('mobile-menu-panel');
+        const menuBackdrop = document.getElementById('menu-backdrop');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        const openMenu = () => {
+            menuContainer.classList.remove('hidden');
+            // Use a short timeout to allow the container to be visible before starting the transition
+            setTimeout(() => {
+                menuBackdrop.classList.add('opacity-100');
+                menuPanel.classList.remove('translate-x-full');
+            }, 10);
+        };
+
+        const closeMenu = () => {
+            menuBackdrop.classList.remove('opacity-100');
+            menuPanel.classList.add('translate-x-full');
+            // Wait for the transition to finish before hiding the container
+            setTimeout(() => {
+                menuContainer.classList.add('hidden');
+            }, 300); // This duration should match the transition duration
+        };
+
+        menuToggle.addEventListener('click', openMenu);
+        menuClose.addEventListener('click', closeMenu);
+        menuBackdrop.addEventListener('click', closeMenu);
+
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', closeMenu);
+        });
+    </script>
+
+</body>
+
+</html>
